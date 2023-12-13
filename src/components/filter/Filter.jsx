@@ -20,7 +20,7 @@ export const Filter = () => {
                 name="filter" 
                 placeholder="Enter name" 
                 value={filter}
-                onChange={ (targetValue) => dispatch(changeFilter(targetValue)) }/>
+                onChange={ (e) => dispatch(changeFilter(e.target.value)) }/>
             </FilterItem>
         </Container>
     )

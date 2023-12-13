@@ -5,23 +5,23 @@ import { ContactList } from './contactList/ContactList';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const App = () => {
 
 const filter = useSelector(state => state.filter.filter);
+const contacts = useSelector(state => state.contacts.contacts);
 
-const [contacts, setContacts] = useState(() => {
+// const [contacts, setContacts] = useState(() => {
     const savedContacts = localStorage.getItem("contacts") ?? [];
 
     if (savedContacts.length !== 0) {
       const parsedContacts = JSON.parse(savedContacts);
-      console.log(parsedContacts);
       return(parsedContacts);
     } else if (savedContacts.length === 0) {
       return ([]);
     };
-});
+// });
 // const [filters, setFilter] = useState('');
 
 useEffect(() => {
