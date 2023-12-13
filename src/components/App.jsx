@@ -5,10 +5,15 @@ import { ContactList } from './contactList/ContactList';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 export const App = () => {
+
+const filter = useSelector(state => state.filter.filter);
+
 const [contacts, setContacts] = useState(() => {
     const savedContacts = localStorage.getItem("contacts") ?? [];
-    console.log(savedContacts);
+
     if (savedContacts.length !== 0) {
       const parsedContacts = JSON.parse(savedContacts);
       console.log(parsedContacts);
@@ -17,7 +22,7 @@ const [contacts, setContacts] = useState(() => {
       return ([]);
     };
 });
-const [filters, setFilter] = useState('');
+// const [filters, setFilter] = useState('');
 
 useEffect(() => {
     localStorage.setItem("contacts", JSON.stringify(contacts));
@@ -36,22 +41,23 @@ const createContact = (values) => {
     };  
 };
 
-const changeFilter = searchValue => {
-  setFilter(searchValue.target.value);
-}
+// const changeFilter = searchValue => {
+//   setFilter(searchValue.target.value);
+// }
 
 const handleDelete = (contactId) => {
   setContacts(prevState => prevState.filter(contact => contact.id !== contactId));
 };
 
-const actualContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filters.toLowerCase()));
+const actualContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()));
 
   return (
     <>
       <GlobalStyle />
       <AddContact create={createContact} />
       <div>
-        <Filter onFilter={changeFilter} initValue={filters}/>
+        {/* <Filter onFilter={changeFilter} initValue={filters}/> */}
+        <Filter />
         <ContactList actual={actualContacts} onDelete={handleDelete}/>
       </div>
     </>
