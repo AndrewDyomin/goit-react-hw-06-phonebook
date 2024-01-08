@@ -3,30 +3,31 @@ import { AddContact } from './newContact/NewContact';
 import { Filter } from './filter/Filter';
 import { ContactList } from './contactList/ContactList';
 import { nanoid } from 'nanoid';
-import { useEffect, useState } from 'react';
-
+// import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/contactSlice';
 
 export const App = () => {
 
 const filter = useSelector(state => state.filter.filter);
-const contacts = useSelector(state => state.contacts.contacts);
+const contacts = useSelector(state => state.contact.contacts);
+const dispatch = useDispatch();
 
 // const [contacts, setContacts] = useState(() => {
-    const savedContacts = localStorage.getItem("contacts") ?? [];
+const savedContacts = localStorage.getItem("contacts") ?? [];
 
-    if (savedContacts.length !== 0) {
-      const parsedContacts = JSON.parse(savedContacts);
-      return(parsedContacts);
-    } else if (savedContacts.length === 0) {
-      return ([]);
-    };
+if (savedContacts.length !== 0) {
+  const parsedContacts = JSON.parse(savedContacts);
+  return(parsedContacts);
+} else if (savedContacts.length === 0) {
+  return ([]);
+};
 // });
 // const [filters, setFilter] = useState('');
 
-useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-}, [contacts])
+// useEffect(() => {
+//     localStorage.setItem("contacts", JSON.stringify(contacts));
+// }, [contacts]);
 
 const createContact = (values) => {
   const targetContact = contacts
@@ -37,7 +38,7 @@ const createContact = (values) => {
       alert(`${values.name} is already in contacts`);
     } else {
       values.id = nanoid();
-      setContacts(prevState => [...prevState, values]);
+      dispatch(addContact(values));
     };  
 };
 
@@ -46,7 +47,7 @@ const createContact = (values) => {
 // }
 
 const handleDelete = (contactId) => {
-  setContacts(prevState => prevState.filter(contact => contact.id !== contactId));
+  contacts = prevState => prevState.filter(contact => contact.id !== contactId);
 };
 
 const actualContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()));
