@@ -5,12 +5,12 @@ import { ContactList } from './contactList/ContactList';
 import { nanoid } from 'nanoid';
 // import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactSlice';
+import { addContact } from '../redux/contactSlice';
 
 export const App = () => {
 
 const filter = useSelector(state => state.filter.filter);
-const contacts = useSelector(state => state.contact.contacts);
+const contact = useSelector(state => state.contact.contacts);
 const dispatch = useDispatch();
 
 // const [contacts, setContacts] = useState(() => {
@@ -30,7 +30,7 @@ if (savedContacts.length !== 0) {
 // }, [contacts]);
 
 const createContact = (values) => {
-  const targetContact = contacts
+  const targetContact = contact
     .map((cont) => cont.name.toLowerCase())
     .includes(values.name.toLowerCase());
 
@@ -47,10 +47,10 @@ const createContact = (values) => {
 // }
 
 const handleDelete = (contactId) => {
-  contacts = prevState => prevState.filter(contact => contact.id !== contactId);
+  // contact = prevState => prevState.filter(contact => contact.id !== contactId);
 };
 
-const actualContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()));
+const actualContacts = contact.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()));
 
   return (
     <>
